@@ -1,0 +1,12 @@
+# PyCharm
+/.idea
+# виртуалка
+/venv
+# IPython
+.ipynb_checkpoints/
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# данные
+/transactions
