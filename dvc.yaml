@@ -1,0 +1,51 @@
+stages:
+
+  ByDay_to_Entire:
+    cmd:
+      - python -m src.data.ByDay_to_Entire data/raw/transactions data/interim/transactions.csv
+    deps:
+      - data/raw/transactions
+      - src/data/ByDay_to_Entire.py
+    outs:
+      - data/interim/transactions.csv
+
+  Entire_to_ByID:
+    cmd:
+      - python -m src.data.Entire_to_ByID data/interim/transactions.csv data/raw/beeline_antispam_hakaton_id_samples.csv data/interim/transactions_by_id
+    deps:
+      - data/interim/transactions.csv
+      - data/raw/beeline_antispam_hakaton_id_samples.csv
+      - src/data/Entire_to_ByID.py
+    outs:
+      - data/interim/transactions_by_id/train
+      - data/interim/transactions_by_id/test
+
+  aggregation:
+    cmd:
+      - python -m src.data.aggregation data/interim/transactions.csv data/interim/aggregated.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/data/aggregation.py
+    outs:
+      - data/interim/aggregated.csv
+
+  data_splitting:
+    cmd:
+      - python -m src.data.data_splitting data/interim/aggregated.csv data/raw/beeline_antispam_hakaton_id_samples.csv data/processed
+    deps:
+      - data/interim/aggregated.csv
+      - data/raw/beeline_antispam_hakaton_id_samples.csv
+      - src/data/data_splitting.py
+    outs:
+      - data/processed/train_data.csv
+      - data/processed/test_data.csv
+
+
+  train_catboost:
+    cmd:
+      - python -m src.models.train_catboost data/processed/train_data.csv models/catboost.cbm
+    deps:
+      - data/processed/train_data.csv
+      - src/models/train_catboost.py
+    outs:
+      - models/catboost.cbm

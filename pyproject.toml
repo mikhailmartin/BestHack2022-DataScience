@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "besthack2022-datascience"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+notebook = "^7.1.2"
+catboost = "^1.2.3"
+lightgbm = "^4.3.0"
+shap = "^0.45.0"
+ipywidgets = "^8.1.2"
+dvc = "^3.49.0"
+click = "^8.1.7"
+pre-commit = "^3.7.0"
+ruff = "^0.3.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

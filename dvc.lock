@@ -1,0 +1,108 @@
+schema: '2.0'
+stages:
+  ByDay_to_Entire:
+    cmd:
+    - python -m src.data.ByDay_to_Entire data/raw/transactions data/interim/transactions.csv
+    deps:
+    - path: data/raw/transactions
+      hash: md5
+      md5: 2dc18d7fb8606e535dbda68a9143eeab.dir
+      size: 14103817058
+      nfiles: 61
+    - path: src/data/ByDay_to_Entire.py
+      hash: md5
+      md5: dadd357fda13e18071146ea08c704de2
+      size: 1059
+    outs:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+  Entire_to_ByID:
+    cmd:
+    - python -m src.data.Entire_to_ByID data/interim/transactions.csv data/raw/beeline_antispam_hakaton_id_samples.csv
+      data/interim/transactions_by_id
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: data/raw/beeline_antispam_hakaton_id_samples.csv
+      hash: md5
+      md5: 942a8d2f60373d518885e7b69d107038
+      size: 835521
+    - path: src/data/Entire_to_ByID.py
+      hash: md5
+      md5: 1a4816de71f1dbdb989c6af14537814e
+      size: 1283
+    outs:
+    - path: data/interim/transactions_by_id/test
+      hash: md5
+      md5: 69c5363bbdd0c4d03bf4458f530ded8c.dir
+      size: 5229557182
+      nfiles: 7103
+    - path: data/interim/transactions_by_id/train
+      hash: md5
+      md5: a5f6b6148fdfbe12bf9891eea043df97.dir
+      size: 9145197027
+      nfiles: 28313
+  aggregation:
+    cmd:
+    - python -m src.data.aggregation data/interim/transactions.csv data/interim/aggregated.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/data/aggregation.py
+      hash: md5
+      md5: ae84a5049dde5d0d05aa1a9e7f0302ae
+      size: 2781
+    outs:
+    - path: data/interim/aggregated.csv
+      hash: md5
+      md5: 4618baa80a9c19c70caca177cc87a8af
+      size: 5737178
+  data_splitting:
+    cmd:
+    - python -m src.data.data_splitting data/interim/aggregated.csv data/raw/beeline_antispam_hakaton_id_samples.csv
+      data/processed
+    deps:
+    - path: data/interim/aggregated.csv
+      hash: md5
+      md5: 4618baa80a9c19c70caca177cc87a8af
+      size: 5737178
+    - path: data/raw/beeline_antispam_hakaton_id_samples.csv
+      hash: md5
+      md5: 942a8d2f60373d518885e7b69d107038
+      size: 835521
+    - path: src/data/data_splitting.py
+      hash: md5
+      md5: 7c5d859b9b16bea126361fab7c185732
+      size: 1048
+    outs:
+    - path: data/processed/test_data.csv
+      hash: md5
+      md5: 3a84709639d77740546e4fcdb2853c1a
+      size: 1135877
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 272b85a20a53e9353e3c771aded6a08d
+      size: 4637396
+  train_catboost:
+    cmd:
+    - python -m src.models.train_catboost data/processed/train_data.csv models/catboost.cbm
+    deps:
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 272b85a20a53e9353e3c771aded6a08d
+      size: 4637396
+    - path: src/models/train_catboost.py
+      hash: md5
+      md5: ddd729f13c6e8cd6f6e5c6a4df2d9316
+      size: 953
+    outs:
+    - path: models/catboost.cbm
+      hash: md5
+      md5: a4bb446203d0db055401b054cc41760a
+      size: 3142960
