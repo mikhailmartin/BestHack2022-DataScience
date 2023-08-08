@@ -8,5 +8,5 @@
 __pycache__/
 *.py[cod]
 
-# данные
-/data
+# CatBoost
+catboost_info/
