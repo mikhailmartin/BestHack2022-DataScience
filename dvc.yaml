@@ -20,32 +20,106 @@ stages:
       - data/interim/transactions_by_id/train
       - data/interim/transactions_by_id/test
 
-  aggregation:
+
+  get_features_from_id_b:
     cmd:
-      - python -m src.data.aggregation data/interim/transactions.csv data/interim/aggregated.csv
+      - python -m src.features.get_features_from_id_b data/interim/transactions.csv data/interim/aggregated_features/features_from_id_b.csv
     deps:
       - data/interim/transactions.csv
-      - src/data/aggregation.py
+      - src/features/get_features_from_id_b.py
     outs:
-      - data/interim/aggregated.csv
+      - data/interim/aggregated_features/features_from_id_b.csv
 
-  data_splitting:
+  get_features_from_datetime:
     cmd:
-      - python -m src.data.data_splitting data/interim/aggregated.csv data/raw/beeline_antispam_hakaton_id_samples.csv data/processed
+      - python -m src.features.get_features_from_datetime data/interim/transactions.csv data/interim/aggregated_features/features_from_datetime.csv
     deps:
-      - data/interim/aggregated.csv
+      - data/interim/transactions.csv
+      - src/features/get_features_from_datetime.py
+    outs:
+      - data/interim/aggregated_features/features_from_datetime.csv
+
+  get_features_from_time_zone:
+    cmd:
+      - python -m src.features.get_features_from_time_zone data/interim/transactions.csv data/interim/aggregated_features/features_from_time_zone.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_time_zone.py
+    outs:
+      - data/interim/aggregated_features/features_from_time_zone.csv
+
+  get_features_from_duration:
+    cmd:
+      - python -m src.features.get_features_from_duration data/interim/transactions.csv data/interim/aggregated_features/features_from_duration.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_duration.py
+    outs:
+      - data/interim/aggregated_features/features_from_duration.csv
+
+  get_features_from_forward:
+    cmd:
+      - python -m src.features.get_features_from_forward data/interim/transactions.csv data/interim/aggregated_features/features_from_forward.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_forward.py
+    outs:
+      - data/interim/aggregated_features/features_from_forward.csv
+
+  get_features_from_zero_call_flg:
+    cmd:
+      - python -m src.features.get_features_from_zero_call_flg data/interim/transactions.csv data/interim/aggregated_features/features_from_zero_call_flg.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_zero_call_flg.py
+    outs:
+      - data/interim/aggregated_features/features_from_zero_call_flg.csv
+
+  get_features_from_source_b:
+    cmd:
+      - python -m src.features.get_features_from_source_b data/interim/transactions.csv data/interim/aggregated_features/features_from_source_b.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_source_b.py
+    outs:
+      - data/interim/aggregated_features/features_from_source_b.csv
+
+  get_features_from_source_f:
+    cmd:
+      - python -m src.features.get_features_from_source_f data/interim/transactions.csv data/interim/aggregated_features/features_from_source_f.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_source_f.py
+    outs:
+      - data/interim/aggregated_features/features_from_source_f.csv
+
+  get_features_from_num_b_length:
+    cmd:
+      - python -m src.features.get_features_from_num_b_length data/interim/transactions.csv data/interim/aggregated_features/features_from_num_b_length.csv
+    deps:
+      - data/interim/transactions.csv
+      - src/features/get_features_from_num_b_length.py
+    outs:
+      - data/interim/aggregated_features/features_from_num_b_length.csv
+
+
+  make_and_split_dataset:
+    cmd:
+      - python -m src.data.make_and_split_dataset data/raw/beeline_antispam_hakaton_id_samples.csv data/interim/aggregated_features data/processed
+    deps:
       - data/raw/beeline_antispam_hakaton_id_samples.csv
-      - src/data/data_splitting.py
+      - data/interim/aggregated_features
+      - src/data/make_and_split_dataset.py
     outs:
       - data/processed/train_data.csv
       - data/processed/test_data.csv
-
-
-  train_catboost:
-    cmd:
-      - python -m src.models.train_catboost data/processed/train_data.csv models/catboost.cbm
-    deps:
-      - data/processed/train_data.csv
-      - src/models/train_catboost.py
-    outs:
-      - models/catboost.cbm
+#
+#
+#  train_catboost:
+#    cmd:
+#      - python -m src.models.train_catboost data/processed/train_data.csv models/catboost.cbm
+#    deps:
+#      - data/processed/train_data.csv
+#      - src/models/train_catboost.py
+#    outs:
+#      - models/catboost.cbm

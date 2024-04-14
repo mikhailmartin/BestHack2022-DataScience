@@ -11,8 +11,8 @@ stages:
       nfiles: 61
     - path: src/data/ByDay_to_Entire.py
       hash: md5
-      md5: dadd357fda13e18071146ea08c704de2
-      size: 1059
+      md5: 08bb7d017b051256e8d0879de8551536
+      size: 1062
     outs:
     - path: data/interim/transactions.csv
       hash: md5
@@ -33,8 +33,8 @@ stages:
       size: 835521
     - path: src/data/Entire_to_ByID.py
       hash: md5
-      md5: 1a4816de71f1dbdb989c6af14537814e
-      size: 1283
+      md5: b2bfb9b94900a8da2264f3401ea73635
+      size: 1339
     outs:
     - path: data/interim/transactions_by_id/test
       hash: md5
@@ -106,3 +106,192 @@ stages:
       hash: md5
       md5: a4bb446203d0db055401b054cc41760a
       size: 3142960
+  get_features_from_id_b:
+    cmd:
+    - python -m src.features.get_features_from_id_b data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_id_b.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_id_b.py
+      hash: md5
+      md5: 2830b6868ba304d43994c7e9066cb354
+      size: 675
+    outs:
+    - path: data/interim/aggregated_features/features_from_id_b.csv
+      hash: md5
+      md5: 100bfba439e2ec31b11829e1911650b7
+      size: 463600
+  get_features_from_datetime:
+    cmd:
+    - python -m src.features.get_features_from_datetime data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_datetime.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_datetime.py
+      hash: md5
+      md5: aa379aba61082680fc6ade12083af991
+      size: 1219
+    outs:
+    - path: data/interim/aggregated_features/features_from_datetime.csv
+      hash: md5
+      md5: a4ade34bbdb58e1f3eb4781f16af49be
+      size: 1525856
+  get_features_from_time_zone:
+    cmd:
+    - python -m src.features.get_features_from_time_zone data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_time_zone.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_time_zone.py
+      hash: md5
+      md5: 261e9c66f6c2e39d6436b61420f630a2
+      size: 763
+    outs:
+    - path: data/interim/aggregated_features/features_from_time_zone.csv
+      hash: md5
+      md5: 932c90d0090ee13774707660f7f9dba7
+      size: 421521
+  get_features_from_duration:
+    cmd:
+    - python -m src.features.get_features_from_duration data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_duration.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_duration.py
+      hash: md5
+      md5: 5b48703bf33a5b6c779bea13bc770a19
+      size: 1069
+    outs:
+    - path: data/interim/aggregated_features/features_from_duration.csv
+      hash: md5
+      md5: df3be4ece06f852d0391af6319c3e542
+      size: 1650030
+  get_features_from_forward:
+    cmd:
+    - python -m src.features.get_features_from_forward data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_forward.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_forward.py
+      hash: md5
+      md5: 9fd1de44036580627826f3346dbda743
+      size: 796
+    outs:
+    - path: data/interim/aggregated_features/features_from_forward.csv
+      hash: md5
+      md5: 3b48715eb45cd5dbcf21c39edabfc309
+      size: 939636
+  get_features_from_zero_call_flg:
+    cmd:
+    - python -m src.features.get_features_from_zero_call_flg data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_zero_call_flg.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_zero_call_flg.py
+      hash: md5
+      md5: 22918b00d703b6b1ac169bb43fa07441
+      size: 887
+    outs:
+    - path: data/interim/aggregated_features/features_from_zero_call_flg.csv
+      hash: md5
+      md5: b0fc9a9829c60d2d9bcb6d0b57a10f91
+      size: 946280
+  get_features_from_source_b:
+    cmd:
+    - python -m src.features.get_features_from_source_b data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_source_b.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_source_b.py
+      hash: md5
+      md5: 3a2dd14b473c1dc03b48898cbd4a6f68
+      size: 806
+    outs:
+    - path: data/interim/aggregated_features/features_from_source_b.csv
+      hash: md5
+      md5: 10313045742d7129966d3d1192f64b47
+      size: 876230
+  get_features_from_source_f:
+    cmd:
+    - python -m src.features.get_features_from_source_f data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_source_f.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_source_f.py
+      hash: md5
+      md5: c69e5f5ed7a2c6846e77b8f168e63fab
+      size: 806
+    outs:
+    - path: data/interim/aggregated_features/features_from_source_f.csv
+      hash: md5
+      md5: 30033f16aa7533e62947cd64ece5c9d4
+      size: 873448
+  get_features_from_num_b_length:
+    cmd:
+    - python -m src.features.get_features_from_num_b_length data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_num_b_length.csv
+    deps:
+    - path: data/interim/transactions.csv
+      hash: md5
+      md5: 45c62350eea42a912953c01ef588de3b
+      size: 14371496029
+    - path: src/features/get_features_from_num_b_length.py
+      hash: md5
+      md5: 1cb50c8677f41b18bda9715f79156a58
+      size: 857
+    outs:
+    - path: data/interim/aggregated_features/features_from_num_b_length.csv
+      hash: md5
+      md5: 42aebac6e288ab759539fa2e12465941
+      size: 838257
+  make_and_split_dataset:
+    cmd:
+    - python -m src.data.make_and_split_dataset data/raw/beeline_antispam_hakaton_id_samples.csv
+      data/interim/aggregated_features data/processed
+    deps:
+    - path: data/interim/aggregated_features
+      hash: md5
+      md5: 479ee2d27ecba9e40d650299c83fb6e9.dir
+      size: 8534974
+      nfiles: 10
+    - path: data/raw/beeline_antispam_hakaton_id_samples.csv
+      hash: md5
+      md5: 942a8d2f60373d518885e7b69d107038
+      size: 835521
+    - path: src/data/make_and_split_dataset.py
+      hash: md5
+      md5: b0282d913ea8b7c615a106911f3392b3
+      size: 1299
+    outs:
+    - path: data/processed/test_data.csv
+      hash: md5
+      md5: 2fa4c8f57b64bfa28670d9c3a03c0e63
+      size: 1294165
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 5e4fb71a5a761a8d46517bf2ed45a2e8
+      size: 5300225
