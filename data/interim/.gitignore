@@ -3,4 +3,4 @@
 # Кроме этого файла
 !.gitignore
 !aggregated_features/
-!transactions_by_id/
+!transactions_by_id_src/

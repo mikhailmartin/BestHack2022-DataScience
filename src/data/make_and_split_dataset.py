@@ -12,8 +12,17 @@ def make_and_split_dataset(
         targets_path: str, features_path: str, output_data_path: str
 ) -> None:
 
-    targets = pd.read_csv(
-        targets_path, dtype={"split": "category", "target": "category"}
+    targets = pd.read_csv(targets_path, dtype={"split": "category"})
+    targets["target"] = (
+        targets["target"]
+        .replace({
+            0.: "не спам",
+            1.: "небольшие полезные ИП / малые бизнесы",
+            2.: "организации",
+            3.: "мобильная карусель",
+            4.: "чёрные спаммеры и мошенники",
+        })
+        .astype("category")
     )
 
     for file_name in os.listdir(features_path):
@@ -21,18 +30,18 @@ def make_and_split_dataset(
             continue
 
         file_path = os.path.join(features_path, file_name)
-        feature = pd.read_csv(file_path)
+        feature = pd.read_parquet(file_path)
 
-        targets = targets.merge(feature, how="left", left_on="id", right_on="id_a")
-        targets.drop(columns="id_a", inplace=True)
+        targets = targets.merge(feature, left_on="id", right_on="id_src", how="left")
+        targets.drop(columns="id_src", inplace=True)
 
-    train_data = targets.query("split == 'train'")
-    train_data.drop(columns="split", inplace=True)
-    train_data.to_csv(os.path.join(output_data_path, "train_data.csv"), index=False)
+    train_data = targets.query("split == 'train'").drop(columns="split").dropna()
+    train_data_path = os.path.join(output_data_path, "train_data.parquet")
+    train_data.to_parquet(train_data_path, index=False)
 
-    test_data = targets.query("split == 'test'")
-    test_data.drop(columns=["split", "target"], inplace=True)
-    test_data.to_csv(os.path.join(output_data_path, "test_data.csv"), index=False)
+    test_data = targets.query("split == 'test'").drop(columns=["split", "target"])
+    test_data_path = os.path.join(output_data_path, "test_data.parquet")
+    test_data.to_parquet(test_data_path, index=False)
 
 
 if __name__ == "__main__":

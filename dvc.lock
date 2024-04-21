@@ -91,165 +91,165 @@ stages:
       size: 4637396
   train_catboost:
     cmd:
-    - python -m src.models.train_catboost data/processed/train_data.csv models/catboost.cbm
+    - python -m src.models.train_catboost data/processed/train_data.parquet models/catboost.cbm
     deps:
-    - path: data/processed/train_data.csv
+    - path: data/processed/train_data.parquet
       hash: md5
-      md5: 272b85a20a53e9353e3c771aded6a08d
-      size: 4637396
+      md5: 2d56ef5dd42ea2bb86f6da9af6b242c3
+      size: 2005023
     - path: src/models/train_catboost.py
       hash: md5
-      md5: ddd729f13c6e8cd6f6e5c6a4df2d9316
-      size: 953
+      md5: 9100310535109a898e1aeedad55ad650
+      size: 693
     outs:
     - path: models/catboost.cbm
       hash: md5
-      md5: a4bb446203d0db055401b054cc41760a
-      size: 3142960
+      md5: 16497547c8ef4f2949e9da2bd2f7ce96
+      size: 1633232
   get_features_from_id_b:
     cmd:
-    - python -m src.features.get_features_from_id_b data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_id_b.csv
+    - python -m src.features.get_features_from_id_dst data/interim/transactions.csv
+      data/interim/aggregated_features/features_from_id_dst.csv
     deps:
     - path: data/interim/transactions.csv
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
-    - path: src/features/get_features_from_id_b.py
+      md5: 95df73250fcc306205d0101c776b5afc
+      size: 14371496035
+    - path: src/features/get_features_from_id_dst.py
       hash: md5
-      md5: 2830b6868ba304d43994c7e9066cb354
-      size: 675
+      md5: eb4ebf5ef084e27b951af28617dd7729
+      size: 691
     outs:
-    - path: data/interim/aggregated_features/features_from_id_b.csv
+    - path: data/interim/aggregated_features/features_from_id_dst.csv
       hash: md5
-      md5: 100bfba439e2ec31b11829e1911650b7
-      size: 463600
+      md5: d6fb89d57782bc759284f29eca87e151
+      size: 463602
   get_features_from_datetime:
     cmd:
-    - python -m src.features.get_features_from_datetime data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_datetime.csv
+    - python -m src.features.get_features_from_datetime data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_datetime.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_datetime.py
       hash: md5
-      md5: aa379aba61082680fc6ade12083af991
-      size: 1219
+      md5: 4f2acdbb056578420c3a7e47b4482de0
+      size: 1226
     outs:
-    - path: data/interim/aggregated_features/features_from_datetime.csv
+    - path: data/interim/aggregated_features/features_from_datetime.parquet
       hash: md5
-      md5: a4ade34bbdb58e1f3eb4781f16af49be
-      size: 1525856
+      md5: 4e95bae13a23492f4724b4a791e9033c
+      size: 899603
   get_features_from_time_zone:
     cmd:
-    - python -m src.features.get_features_from_time_zone data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_time_zone.csv
+    - python -m src.features.get_features_from_time_zone data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_time_zone.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_time_zone.py
       hash: md5
-      md5: 261e9c66f6c2e39d6436b61420f630a2
-      size: 763
+      md5: 0c675ff56fc27a45604377360f891a99
+      size: 767
     outs:
-    - path: data/interim/aggregated_features/features_from_time_zone.csv
+    - path: data/interim/aggregated_features/features_from_time_zone.parquet
       hash: md5
-      md5: 932c90d0090ee13774707660f7f9dba7
-      size: 421521
+      md5: 0e9d0b16df0b4875f1a37e9be3c64d26
+      size: 267439
   get_features_from_duration:
     cmd:
-    - python -m src.features.get_features_from_duration data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_duration.csv
+    - python -m src.features.get_features_from_duration data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_duration.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_duration.py
       hash: md5
-      md5: 5b48703bf33a5b6c779bea13bc770a19
-      size: 1069
+      md5: 3dbac1b4ba461cb4e6ec37299f3008da
+      size: 1073
     outs:
-    - path: data/interim/aggregated_features/features_from_duration.csv
+    - path: data/interim/aggregated_features/features_from_duration.parquet
       hash: md5
-      md5: df3be4ece06f852d0391af6319c3e542
-      size: 1650030
+      md5: c0773f1281844a2f30ff3fa37cae314f
+      size: 932065
   get_features_from_forward:
     cmd:
-    - python -m src.features.get_features_from_forward data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_forward.csv
+    - python -m src.features.get_features_from_forward data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_forward.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_forward.py
       hash: md5
-      md5: 9fd1de44036580627826f3346dbda743
-      size: 796
+      md5: 7f7e6f5c005e8b1ab2504c1d19b19a38
+      size: 802
     outs:
-    - path: data/interim/aggregated_features/features_from_forward.csv
+    - path: data/interim/aggregated_features/features_from_forward.parquet
       hash: md5
-      md5: 3b48715eb45cd5dbcf21c39edabfc309
-      size: 939636
+      md5: fd75c7952e9b28bbea61aab62f66cffb
+      size: 408463
   get_features_from_zero_call_flg:
     cmd:
-    - python -m src.features.get_features_from_zero_call_flg data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_zero_call_flg.csv
+    - python -m src.features.get_features_from_zero_call_flg data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_zero_call_flg.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_zero_call_flg.py
       hash: md5
-      md5: 22918b00d703b6b1ac169bb43fa07441
-      size: 887
+      md5: 63126109000c73270ec73f21090ab7a3
+      size: 868
     outs:
-    - path: data/interim/aggregated_features/features_from_zero_call_flg.csv
+    - path: data/interim/aggregated_features/features_from_zero_call_flg.parquet
       hash: md5
-      md5: b0fc9a9829c60d2d9bcb6d0b57a10f91
-      size: 946280
+      md5: 21e38823c4ab274e08f45955dd772723
+      size: 485125
   get_features_from_source_b:
     cmd:
-    - python -m src.features.get_features_from_source_b data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_source_b.csv
+    - python -m src.features.get_features_from_source_b data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_source_b.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_source_b.py
       hash: md5
-      md5: 3a2dd14b473c1dc03b48898cbd4a6f68
-      size: 806
+      md5: 6fc88626812faf9809834e767c19ad90
+      size: 811
     outs:
-    - path: data/interim/aggregated_features/features_from_source_b.csv
+    - path: data/interim/aggregated_features/features_from_source_b.parquet
       hash: md5
-      md5: 10313045742d7129966d3d1192f64b47
-      size: 876230
+      md5: e7cfd94253234ad1f62ec56b4691cf2f
+      size: 415816
   get_features_from_source_f:
     cmd:
-    - python -m src.features.get_features_from_source_f data/interim/transactions.csv
-      data/interim/aggregated_features/features_from_source_f.csv
+    - python -m src.features.get_features_from_source_f data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_source_f.parquet
     deps:
-    - path: data/interim/transactions.csv
+    - path: data/interim/transactions.parquet
       hash: md5
-      md5: 45c62350eea42a912953c01ef588de3b
-      size: 14371496029
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
     - path: src/features/get_features_from_source_f.py
       hash: md5
-      md5: c69e5f5ed7a2c6846e77b8f168e63fab
-      size: 806
+      md5: f0c2e65e822d860f8d9678e2ffdaaa04
+      size: 811
     outs:
-    - path: data/interim/aggregated_features/features_from_source_f.csv
+    - path: data/interim/aggregated_features/features_from_source_f.parquet
       hash: md5
-      md5: 30033f16aa7533e62947cd64ece5c9d4
-      size: 873448
+      md5: b0d7025cd70ad7acf79afc19f7bf724d
+      size: 411913
   get_features_from_num_b_length:
     cmd:
     - python -m src.features.get_features_from_num_b_length data/interim/transactions.csv
@@ -275,8 +275,8 @@ stages:
     deps:
     - path: data/interim/aggregated_features
       hash: md5
-      md5: 479ee2d27ecba9e40d650299c83fb6e9.dir
-      size: 8534974
+      md5: 4f53f386e77cf62320737f9f8a454425.dir
+      size: 4529516
       nfiles: 10
     - path: data/raw/beeline_antispam_hakaton_id_samples.csv
       hash: md5
@@ -284,14 +284,96 @@ stages:
       size: 835521
     - path: src/data/make_and_split_dataset.py
       hash: md5
-      md5: b0282d913ea8b7c615a106911f3392b3
-      size: 1299
+      md5: 179b6e56217597f849138752fa8ce506
+      size: 1727
     outs:
-    - path: data/processed/test_data.csv
+    - path: data/processed/test_data.parquet
       hash: md5
-      md5: 2fa4c8f57b64bfa28670d9c3a03c0e63
-      size: 1294165
-    - path: data/processed/train_data.csv
+      md5: 7846d0ff44b7a22e9a5ed8131496d2c9
+      size: 573981
+    - path: data/processed/train_data.parquet
       hash: md5
-      md5: 5e4fb71a5a761a8d46517bf2ed45a2e8
-      size: 5300225
+      md5: 2d56ef5dd42ea2bb86f6da9af6b242c3
+      size: 2005023
+  by_day_to_entire:
+    cmd:
+    - python -m src.data.by_day_to_entire data/raw/transactions data/interim/transactions.parquet
+    deps:
+    - path: data/raw/transactions
+      hash: md5
+      md5: 2dc18d7fb8606e535dbda68a9143eeab.dir
+      size: 14103817058
+      nfiles: 61
+    - path: src/data/by_day_to_entire.py
+      hash: md5
+      md5: 21d29cf007efeb34632a183da43b470e
+      size: 1355
+    outs:
+    - path: data/interim/transactions.parquet
+      hash: md5
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
+  entire_to_by_id_src:
+    cmd:
+    - python -m src.data.entire_to_by_id_src data/interim/transactions.parquet data/raw/beeline_antispam_hakaton_id_samples.csv
+      data/interim/transactions_by_id_src
+    deps:
+    - path: data/interim/transactions.parquet
+      hash: md5
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
+    - path: data/raw/beeline_antispam_hakaton_id_samples.csv
+      hash: md5
+      md5: 942a8d2f60373d518885e7b69d107038
+      size: 835521
+    - path: src/data/entire_to_by_id_src.py
+      hash: md5
+      md5: 49b14641b6d3303b286676e20934082f
+      size: 1297
+    outs:
+    - path: data/interim/transactions_by_id_src/test
+      hash: md5
+      md5: b3a7b8edfbdf7ad9bf4ecb92dc6bfe53.dir
+      size: 1136142815
+      nfiles: 7103
+    - path: data/interim/transactions_by_id_src/train
+      hash: md5
+      md5: bfdd107bdbb0e808eaaefc32609ab9dc.dir
+      size: 2457269463
+      nfiles: 28313
+  get_features_from_num_dst_length:
+    cmd:
+    - python -m src.features.get_features_from_num_dst_length data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_num_dst_length.parquet
+    deps:
+    - path: data/interim/transactions.parquet
+      hash: md5
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
+    - path: src/features/get_features_from_num_dst_length.py
+      hash: md5
+      md5: 60b5de5ff66c7373b8b1d7a397bff8ff
+      size: 865
+    outs:
+    - path: data/interim/aggregated_features/features_from_num_dst_length.parquet
+      hash: md5
+      md5: 363f0941f45b54898dd60a60dd3ca035
+      size: 389839
+  get_features_from_id_dst:
+    cmd:
+    - python -m src.features.get_features_from_id_dst data/interim/transactions.parquet
+      data/interim/aggregated_features/features_from_id_dst.parquet
+    deps:
+    - path: data/interim/transactions.parquet
+      hash: md5
+      md5: 4e9fbbe08dc15c7d220cc68eb7680d5b
+      size: 3225793936
+    - path: src/features/get_features_from_id_dst.py
+      hash: md5
+      md5: 379e96a235247ab8dbe967ab577b7a38
+      size: 736
+    outs:
+    - path: data/interim/aggregated_features/features_from_id_dst.parquet
+      hash: md5
+      md5: 9142b456eb5cc0335fe88a5274ed2929
+      size: 319137

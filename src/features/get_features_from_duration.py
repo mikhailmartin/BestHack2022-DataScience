@@ -7,13 +7,11 @@ import pandas as pd
 @click.argument("output_data_path", type=click.Path())
 def get_features_from_duration(input_data_path: str, output_data_path: str) -> None:
 
-    entire = pd.read_csv(
-        input_data_path, usecols=["id_a", "duration"], dtype={"duration": "int16"}
-    )
+    entire = pd.read_parquet(input_data_path, columns=["id_src", "duration"])
 
     features_from_duration = (
         entire
-        .groupby("id_a")
+        .groupby("id_src")
         .aggregate(
             # всего звонков
             calls_count=pd.NamedAgg(column="duration", aggfunc="count"),
@@ -22,9 +20,10 @@ def get_features_from_duration(input_data_path: str, output_data_path: str) -> N
             # стандартное отклонение продолжительности звонка
             duration_std=pd.NamedAgg(column="duration", aggfunc="std"),
         )
+        .reset_index()
     )
 
-    features_from_duration.to_csv(output_data_path)
+    features_from_duration.to_parquet(output_data_path, index=False)
 
 
 if __name__ == "__main__":

@@ -1,106 +1,106 @@
 stages:
 
-  ByDay_to_Entire:
+  by_day_to_entire:
     cmd:
-      - python -m src.data.ByDay_to_Entire data/raw/transactions data/interim/transactions.csv
+      - python -m src.data.by_day_to_entire data/raw/transactions data/interim/transactions.parquet
     deps:
       - data/raw/transactions
-      - src/data/ByDay_to_Entire.py
+      - src/data/by_day_to_entire.py
     outs:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
 
-  Entire_to_ByID:
+  entire_to_by_id_src:
     cmd:
-      - python -m src.data.Entire_to_ByID data/interim/transactions.csv data/raw/beeline_antispam_hakaton_id_samples.csv data/interim/transactions_by_id
+      - python -m src.data.entire_to_by_id_src data/interim/transactions.parquet data/raw/beeline_antispam_hakaton_id_samples.csv data/interim/transactions_by_id_src
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - data/raw/beeline_antispam_hakaton_id_samples.csv
-      - src/data/Entire_to_ByID.py
+      - src/data/entire_to_by_id_src.py
     outs:
-      - data/interim/transactions_by_id/train
-      - data/interim/transactions_by_id/test
+      - data/interim/transactions_by_id_src/train
+      - data/interim/transactions_by_id_src/test
 
 
-  get_features_from_id_b:
+  get_features_from_id_dst:
     cmd:
-      - python -m src.features.get_features_from_id_b data/interim/transactions.csv data/interim/aggregated_features/features_from_id_b.csv
+      - python -m src.features.get_features_from_id_dst data/interim/transactions.parquet data/interim/aggregated_features/features_from_id_dst.parquet
     deps:
-      - data/interim/transactions.csv
-      - src/features/get_features_from_id_b.py
+      - data/interim/transactions.parquet
+      - src/features/get_features_from_id_dst.py
     outs:
-      - data/interim/aggregated_features/features_from_id_b.csv
+      - data/interim/aggregated_features/features_from_id_dst.parquet
 
   get_features_from_datetime:
     cmd:
-      - python -m src.features.get_features_from_datetime data/interim/transactions.csv data/interim/aggregated_features/features_from_datetime.csv
+      - python -m src.features.get_features_from_datetime data/interim/transactions.parquet data/interim/aggregated_features/features_from_datetime.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_datetime.py
     outs:
-      - data/interim/aggregated_features/features_from_datetime.csv
+      - data/interim/aggregated_features/features_from_datetime.parquet
 
   get_features_from_time_zone:
     cmd:
-      - python -m src.features.get_features_from_time_zone data/interim/transactions.csv data/interim/aggregated_features/features_from_time_zone.csv
+      - python -m src.features.get_features_from_time_zone data/interim/transactions.parquet data/interim/aggregated_features/features_from_time_zone.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_time_zone.py
     outs:
-      - data/interim/aggregated_features/features_from_time_zone.csv
+      - data/interim/aggregated_features/features_from_time_zone.parquet
 
   get_features_from_duration:
     cmd:
-      - python -m src.features.get_features_from_duration data/interim/transactions.csv data/interim/aggregated_features/features_from_duration.csv
+      - python -m src.features.get_features_from_duration data/interim/transactions.parquet data/interim/aggregated_features/features_from_duration.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_duration.py
     outs:
-      - data/interim/aggregated_features/features_from_duration.csv
+      - data/interim/aggregated_features/features_from_duration.parquet
 
   get_features_from_forward:
     cmd:
-      - python -m src.features.get_features_from_forward data/interim/transactions.csv data/interim/aggregated_features/features_from_forward.csv
+      - python -m src.features.get_features_from_forward data/interim/transactions.parquet data/interim/aggregated_features/features_from_forward.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_forward.py
     outs:
-      - data/interim/aggregated_features/features_from_forward.csv
+      - data/interim/aggregated_features/features_from_forward.parquet
 
   get_features_from_zero_call_flg:
     cmd:
-      - python -m src.features.get_features_from_zero_call_flg data/interim/transactions.csv data/interim/aggregated_features/features_from_zero_call_flg.csv
+      - python -m src.features.get_features_from_zero_call_flg data/interim/transactions.parquet data/interim/aggregated_features/features_from_zero_call_flg.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_zero_call_flg.py
     outs:
-      - data/interim/aggregated_features/features_from_zero_call_flg.csv
+      - data/interim/aggregated_features/features_from_zero_call_flg.parquet
 
   get_features_from_source_b:
     cmd:
-      - python -m src.features.get_features_from_source_b data/interim/transactions.csv data/interim/aggregated_features/features_from_source_b.csv
+      - python -m src.features.get_features_from_source_b data/interim/transactions.parquet data/interim/aggregated_features/features_from_source_b.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_source_b.py
     outs:
-      - data/interim/aggregated_features/features_from_source_b.csv
+      - data/interim/aggregated_features/features_from_source_b.parquet
 
   get_features_from_source_f:
     cmd:
-      - python -m src.features.get_features_from_source_f data/interim/transactions.csv data/interim/aggregated_features/features_from_source_f.csv
+      - python -m src.features.get_features_from_source_f data/interim/transactions.parquet data/interim/aggregated_features/features_from_source_f.parquet
     deps:
-      - data/interim/transactions.csv
+      - data/interim/transactions.parquet
       - src/features/get_features_from_source_f.py
     outs:
-      - data/interim/aggregated_features/features_from_source_f.csv
+      - data/interim/aggregated_features/features_from_source_f.parquet
 
-  get_features_from_num_b_length:
+  get_features_from_num_dst_length:
     cmd:
-      - python -m src.features.get_features_from_num_b_length data/interim/transactions.csv data/interim/aggregated_features/features_from_num_b_length.csv
+      - python -m src.features.get_features_from_num_dst_length data/interim/transactions.parquet data/interim/aggregated_features/features_from_num_dst_length.parquet
     deps:
-      - data/interim/transactions.csv
-      - src/features/get_features_from_num_b_length.py
+      - data/interim/transactions.parquet
+      - src/features/get_features_from_num_dst_length.py
     outs:
-      - data/interim/aggregated_features/features_from_num_b_length.csv
+      - data/interim/aggregated_features/features_from_num_dst_length.parquet
 
 
   make_and_split_dataset:
@@ -111,15 +111,15 @@ stages:
       - data/interim/aggregated_features
       - src/data/make_and_split_dataset.py
     outs:
-      - data/processed/train_data.csv
-      - data/processed/test_data.csv
-#
-#
-#  train_catboost:
-#    cmd:
-#      - python -m src.models.train_catboost data/processed/train_data.csv models/catboost.cbm
-#    deps:
-#      - data/processed/train_data.csv
-#      - src/models/train_catboost.py
-#    outs:
-#      - models/catboost.cbm
+      - data/processed/train_data.parquet
+      - data/processed/test_data.parquet
+
+
+  train_catboost:
+    cmd:
+      - python -m src.models.train_catboost data/processed/train_data.parquet models/catboost.cbm
+    deps:
+      - data/processed/train_data.parquet
+      - src/models/train_catboost.py
+    outs:
+      - models/catboost.cbm

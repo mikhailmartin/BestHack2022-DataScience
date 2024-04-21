@@ -9,22 +9,21 @@ import pandas as pd
 @click.argument("output_data_path", type=click.Path(file_okay=True))
 def get_features_from_datetime(input_data_path: str, output_data_path: str) -> None:
 
-    entire = pd.read_csv(
-        input_data_path, usecols=["id_a", "datetime"], parse_dates=["datetime"]
-    )
+    entire = pd.read_parquet(input_data_path, columns=["id_src", "datetime"])
 
     features_from_datetime = (
         entire
-        .groupby("id_a")
+        .groupby("id_src")
         .aggregate(
             # средний перерыв между звонками в секундах
             diff_mean=pd.NamedAgg(column="datetime", aggfunc=diff_mean),
             # стандартное отклонение перерывов между звонками в секундах
             diff_std=pd.NamedAgg(column="datetime", aggfunc=diff_std),
         )
+        .reset_index()
     )
 
-    features_from_datetime.to_csv(output_data_path)
+    features_from_datetime.to_parquet(output_data_path, index=False)
 
 
 def diff_mean(series: pd.Series) -> pd.Series:
